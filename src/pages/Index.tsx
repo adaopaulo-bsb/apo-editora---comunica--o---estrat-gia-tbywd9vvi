@@ -1,5 +1,7 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { centavosParaReaisFormatado, reaisParaCentavos } from '@/lib/moeda'
+import { executarTestesMoeda } from '@/lib/moeda.test'
 import { Badge } from '@/components/ui/badge'
 import {
   Accordion,
@@ -159,7 +161,11 @@ const capabilities: CapabilityItem[] = [
 ]
 
 const Index = () => {
-  const [activeTab, setActiveTab] = useState<'capacidades' | 'bloqueios' | 'fases'>('capacidades')
+  const [activeTab, setActiveTab] = useState<'capacidades' | 'bloqueios' | 'fases' | 'moeda'>(
+    'capacidades',
+  )
+  const testeMoedaResultado = useMemo(() => executarTestesMoeda(), [])
+  const [exemploInput, setExemploInput] = useState('12,50')
 
   const countNative = capabilities.filter((c) => c.status === 'nativo').length
   const countIntegrable = capabilities.filter((c) => c.status === 'integrável').length
@@ -254,6 +260,9 @@ const Index = () => {
             </TabsTrigger>
             <TabsTrigger value="fases" className="text-xs sm:text-sm">
               Roteiro das Fases
+            </TabsTrigger>
+            <TabsTrigger value="moeda" className="text-xs sm:text-sm">
+              Moeda (Fase 2)
             </TabsTrigger>
           </TabsList>
 
@@ -561,6 +570,82 @@ const Index = () => {
                     </AccordionContent>
                   </AccordionItem>
                 </Accordion>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* TAB 4: Utilitário de Conversão Monetária (Fase 2) */}
+          <TabsContent value="moeda" className="space-y-6">
+            <Card className="border-slate-200">
+              <CardHeader>
+                <div className="flex items-center gap-2 text-emerald-700 font-semibold text-sm">
+                  <CheckCircle2 className="h-5 w-5" />
+                  <span>Módulo Unificado de Moeda (reais ↔ centavos)</span>
+                </div>
+                <CardTitle className="text-xl">Validação de Conversão Monetária</CardTitle>
+                <CardDescription>
+                  O banco armazena sempre centavos inteiros. Telas e relatórios exibem em reais com
+                  vírgula.
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-lg text-emerald-950 text-sm space-y-2">
+                  <div className="font-semibold flex items-center gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+                    Bateria de Testes Automatizados:{' '}
+                    {testeMoedaResultado.sucesso
+                      ? 'TODOS OS TESTES PASSARAM'
+                      : 'FALHA NOS TESTES'}{' '}
+                    ({testeMoedaResultado.total - testeMoedaResultado.falhas}/
+                    {testeMoedaResultado.total})
+                  </div>
+                  <ul className="text-xs space-y-1 pl-5 list-disc text-emerald-900">
+                    {testeMoedaResultado.resultados.map((r, i) => (
+                      <li key={i}>
+                        <strong>{r.descricao}</strong>: esperado{' '}
+                        <code className="bg-white/70 px-1 rounded">{String(r.esperado)}</code>,
+                        obtido <code className="bg-white/70 px-1 rounded">{String(r.obtido)}</code>{' '}
+                        ✓
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="border border-slate-200 rounded-lg p-4 bg-white space-y-3">
+                  <h4 className="font-semibold text-sm text-slate-900">
+                    Demonstração Interativa ao Vivo:
+                  </h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 items-center">
+                    <div>
+                      <label className="text-xs font-medium text-slate-700 block mb-1">
+                        Entrada em Reais (input do usuário):
+                      </label>
+                      <input
+                        type="text"
+                        value={exemploInput}
+                        onChange={(e) => setExemploInput(e.target.value)}
+                        className="w-full px-3 py-2 text-sm border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                        placeholder="Ex: 12,50"
+                      />
+                    </div>
+                    <div className="p-3 bg-slate-50 rounded border text-center">
+                      <div className="text-xs text-slate-500 font-medium">
+                        Gravado no Banco (Centavos):
+                      </div>
+                      <div className="text-lg font-bold font-mono text-indigo-700">
+                        {reaisParaCentavos(exemploInput)}
+                      </div>
+                    </div>
+                    <div className="p-3 bg-slate-50 rounded border text-center">
+                      <div className="text-xs text-slate-500 font-medium">
+                        Exibido na Interface:
+                      </div>
+                      <div className="text-lg font-bold text-emerald-700">
+                        {centavosParaReaisFormatado(reaisParaCentavos(exemploInput))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </CardContent>
             </Card>
           </TabsContent>
