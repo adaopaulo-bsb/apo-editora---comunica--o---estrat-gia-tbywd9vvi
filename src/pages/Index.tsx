@@ -167,6 +167,12 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 pb-16">
+      {/* Aviso: app em construção (Fase 1 — estrutura base, sem telas finais) */}
+      <div className="bg-amber-950 text-amber-100 text-xs sm:text-sm text-center px-4 py-2">
+        APO Editora — app em construção (Fase 1: estrutura base). Nenhuma tela final de produto foi
+        implementada ainda.
+      </div>
+
       {/* Header institucional */}
       <header className="border-b bg-white shadow-sm">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
@@ -179,11 +185,12 @@ const Index = () => {
                 variant="outline"
                 className="border-amber-700/30 text-amber-900 bg-amber-50 text-xs"
               >
-                Fase 0: Preparação
+                Fase 1: Fundação (em andamento)
               </Badge>
             </div>
             <p className="text-sm text-slate-600">
-              Prompt 0.1 — Verificação de Capacidades Nativas do Skip e Contexto-Mestre
+              Fase 1 — Fundação do Projeto: estrutura base no PocketBase (coleções, regras de acesso
+              e hooks). Sem telas finais de produto nesta fase.
             </p>
           </div>
           <div className="flex items-center gap-2">

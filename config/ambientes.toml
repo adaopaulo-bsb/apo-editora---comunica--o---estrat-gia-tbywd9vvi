@@ -1,0 +1,48 @@
+#
+# Configuração de ambientes — APO Editora
+#
+# ESTE projeto Skip é o ambiente de TESTE.
+# O ambiente de PRODUÇÃO será um segundo projeto Skip, criado depois
+# (passo a passo em docs/PRODUCAO.md).
+#
+
+[ambiente]
+# "teste" (padrão) ou "producao"
+# No Skip Cloud isso é uma variável/segredo do backend, lida pelos hooks
+# via $os.getenv("APP_ENV"). Definida com set_env, nunca em arquivo .env.
+APP_ENV = "teste"
+
+[versao]
+# Versão do app reportada pela rota /backend/v1/saude e usada nos logs.
+# Altere aqui e no topo de pocketbase/hooks/rotas.js ao publicar uma fase.
+APP_VERSAO = "0.1.0-fase1"
+
+[limites]
+# Valores iniciais da Fase 1. A fonte da verdade em runtime é a coleção
+# "config" (editável só por admin) — estes valores são as sementes criadas
+# pela migração 0002_config.js.
+limite_arquivo_mb = 25
+limite_palavras_obra = 200000
+retencao_arquivos_dias = 90
+gasto_maximo_diario_ia_brl = 20.00
+ia_modo_simulado = true
+
+[segredos]
+# Segredos/variáveis que cada ambiente precisa (definidos com set_env):
+
+# — Ambiente de TESTE (este projeto) —
+# APP_ENV                = "teste"                (já definido)
+# VITE_POCKETBASE_URL    = URL do backend deste projeto (definida pelo Skip)
+# (IA real só entra em fases futuras; hoje os hooks usam modo simulado.)
+
+# — Ambiente de PRODUÇÃO (segundo projeto Skip, quando criado) —
+# APP_ENV                = "producao"
+# VITE_POCKETBASE_URL    = URL do backend do projeto de produção
+# IA real (fases indicadas): chaves de IA via set_env, com limite de gasto
+# lido da coleção config (gasto_maximo_diario_ia_brl) — nunca no código.
+
+[regras]
+# - Nunca escrever .env: variáveis/segredos só via set_env.
+# - Preços, prazos e margens nunca ficam no código: virão de tabelas
+#   editáveis (coleção precos já criada para fases futuras).
+# - Dados de demonstração só rodam quando APP_ENV != "producao".

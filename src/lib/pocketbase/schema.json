@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-10T20:29:37.627Z",
+  "generatedAt": "2026-11-10T21:07:56.602Z",
   "collections": [
     {
       "name": "users",
@@ -8,8 +8,8 @@
         "list": "id = @request.auth.id",
         "view": "id = @request.auth.id",
         "create": "",
-        "update": "id = @request.auth.id",
-        "delete": "id = @request.auth.id"
+        "update": "id = @request.auth.id && @request.body.role:changed = false",
+        "delete": null
       },
       "fields": [
         {
@@ -37,11 +37,738 @@
           "required": false,
           "system": false,
           "autodateTriggers": ["onCreate", "onUpdate"]
+        },
+        {
+          "name": "role",
+          "type": "select",
+          "required": false,
+          "system": false,
+          "selectValues": ["autor", "editor", "admin"]
         }
       ],
       "indexes": [
         "CREATE UNIQUE INDEX `idx_tokenKey__pb_users_auth_` ON `users` (`tokenKey`)",
         "CREATE UNIQUE INDEX `idx_email__pb_users_auth_` ON `users` (`email`) WHERE `email` != ''"
+      ]
+    },
+    {
+      "name": "config",
+      "type": "base",
+      "apiRules": {
+        "list": "@request.auth.id != ''",
+        "view": "@request.auth.id != ''",
+        "create": "@request.auth.role = 'admin'",
+        "update": "@request.auth.role = 'admin'",
+        "delete": "@request.auth.role = 'admin'"
+      },
+      "fields": [
+        {
+          "name": "chave",
+          "type": "text",
+          "required": true,
+          "system": false
+        },
+        {
+          "name": "valor",
+          "type": "text",
+          "required": true,
+          "system": false
+        },
+        {
+          "name": "descricao",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "created",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate"]
+        },
+        {
+          "name": "updated",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate", "onUpdate"]
+        }
+      ],
+      "indexes": ["CREATE UNIQUE INDEX idx_config_chave ON config (chave)"]
+    },
+    {
+      "name": "auditoria",
+      "type": "base",
+      "apiRules": {
+        "list": "@request.auth.id != '' && (@request.auth.role = 'admin' || usuario = @request.auth.id)",
+        "view": "@request.auth.id != '' && (@request.auth.role = 'admin' || usuario = @request.auth.id)",
+        "create": null,
+        "update": null,
+        "delete": null
+      },
+      "fields": [
+        {
+          "name": "usuario",
+          "type": "relation",
+          "required": false,
+          "system": false,
+          "collectionRef": "users"
+        },
+        {
+          "name": "acao",
+          "type": "text",
+          "required": true,
+          "system": false
+        },
+        {
+          "name": "resultado",
+          "type": "select",
+          "required": true,
+          "system": false,
+          "selectValues": ["ok", "erro"]
+        },
+        {
+          "name": "detalhe",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "created",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate"]
+        },
+        {
+          "name": "updated",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate", "onUpdate"]
+        }
+      ],
+      "indexes": [
+        "CREATE INDEX idx_auditoria_usuario_created ON auditoria (usuario, created DESC)",
+        "CREATE INDEX idx_auditoria_acao ON auditoria (acao)"
+      ]
+    },
+    {
+      "name": "notificacoes",
+      "type": "base",
+      "apiRules": {
+        "list": "@request.auth.id != '' && destinatario = @request.auth.id",
+        "view": "@request.auth.id != '' && destinatario = @request.auth.id",
+        "create": null,
+        "update": "@request.auth.id != '' && destinatario = @request.auth.id",
+        "delete": null
+      },
+      "fields": [
+        {
+          "name": "destinatario",
+          "type": "relation",
+          "required": true,
+          "system": false,
+          "collectionRef": "users"
+        },
+        {
+          "name": "titulo",
+          "type": "text",
+          "required": true,
+          "system": false
+        },
+        {
+          "name": "conteudo",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "lida",
+          "type": "bool",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "created",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate"]
+        },
+        {
+          "name": "updated",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate", "onUpdate"]
+        }
+      ],
+      "indexes": [
+        "CREATE INDEX idx_notificacoes_destinatario_created ON notificacoes (destinatario, created DESC)"
+      ]
+    },
+    {
+      "name": "autores",
+      "type": "base",
+      "apiRules": {
+        "list": "@request.auth.id != '' && (usuario = @request.auth.id || @request.auth.role = 'admin' || @request.auth.role = 'editor')",
+        "view": "@request.auth.id != '' && (usuario = @request.auth.id || @request.auth.role = 'admin' || @request.auth.role = 'editor')",
+        "create": "@request.auth.id != '' && usuario = @request.auth.id && @request.auth.role != 'admin'",
+        "update": "@request.auth.id != '' && (usuario = @request.auth.id || @request.auth.role = 'admin')",
+        "delete": "@request.auth.role = 'admin'"
+      },
+      "fields": [
+        {
+          "name": "usuario",
+          "type": "relation",
+          "required": true,
+          "system": false,
+          "collectionRef": "users"
+        },
+        {
+          "name": "nome_completo",
+          "type": "text",
+          "required": true,
+          "system": false
+        },
+        {
+          "name": "nome_social",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "telefone",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "cidade",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "created",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate"]
+        },
+        {
+          "name": "updated",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate", "onUpdate"]
+        }
+      ],
+      "indexes": ["CREATE UNIQUE INDEX idx_autores_usuario ON autores (usuario)"]
+    },
+    {
+      "name": "obras",
+      "type": "base",
+      "apiRules": {
+        "list": "@request.auth.id != '' && (autor = @request.auth.id || @request.auth.role = 'admin' || @request.auth.role = 'editor')",
+        "view": "@request.auth.id != '' && (autor = @request.auth.id || @request.auth.role = 'admin' || @request.auth.role = 'editor')",
+        "create": "@request.auth.id != '' && autor = @request.auth.id && @request.auth.role != 'admin' && @request.auth.role != 'editor'",
+        "update": "@request.auth.id != '' && (autor = @request.auth.id || @request.auth.role = 'admin' || @request.auth.role = 'editor')",
+        "delete": "@request.auth.id != '' && (autor = @request.auth.id || @request.auth.role = 'admin')"
+      },
+      "fields": [
+        {
+          "name": "autor",
+          "type": "relation",
+          "required": true,
+          "system": false,
+          "collectionRef": "autores"
+        },
+        {
+          "name": "titulo",
+          "type": "text",
+          "required": true,
+          "system": false
+        },
+        {
+          "name": "subtitulo",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "genero",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "sinopse",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "palavras",
+          "type": "number",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "estado",
+          "type": "select",
+          "required": false,
+          "system": false,
+          "selectValues": [
+            "rascunho",
+            "questionario",
+            "raio_x",
+            "parecer",
+            "preparacao",
+            "projeto_grafico",
+            "producao",
+            "posicionamento",
+            "concluida"
+          ]
+        },
+        {
+          "name": "created",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate"]
+        },
+        {
+          "name": "updated",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate", "onUpdate"]
+        }
+      ],
+      "indexes": ["CREATE INDEX idx_obras_autor_created ON obras (autor, created DESC)"]
+    },
+    {
+      "name": "jobs",
+      "type": "base",
+      "apiRules": {
+        "list": "@request.auth.id != '' && obra.autor = @request.auth.id",
+        "view": "@request.auth.id != '' && obra.autor = @request.auth.id",
+        "create": null,
+        "update": null,
+        "delete": null
+      },
+      "fields": [
+        {
+          "name": "obra",
+          "type": "relation",
+          "required": true,
+          "system": false,
+          "collectionRef": "obras"
+        },
+        {
+          "name": "tipo",
+          "type": "select",
+          "required": true,
+          "system": false,
+          "selectValues": [
+            "teste",
+            "raio_x",
+            "parecer",
+            "preparacao",
+            "projeto_grafico",
+            "producao",
+            "posicionamento"
+          ]
+        },
+        {
+          "name": "estado",
+          "type": "select",
+          "required": false,
+          "system": false,
+          "selectValues": ["pendente", "executando", "concluido", "erro"]
+        },
+        {
+          "name": "tentativas",
+          "type": "number",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "erro",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "iniciado_em",
+          "type": "date",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "finalizado_em",
+          "type": "date",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "created",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate"]
+        },
+        {
+          "name": "updated",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate", "onUpdate"]
+        }
+      ],
+      "indexes": [
+        "CREATE INDEX idx_jobs_obra_estado ON jobs (obra, estado)",
+        "CREATE INDEX idx_jobs_estado_tentativas ON jobs (estado, tentativas)"
+      ]
+    },
+    {
+      "name": "arquivos",
+      "type": "base",
+      "apiRules": {
+        "list": "@request.auth.id != '' && (obra.autor = @request.auth.id || @request.auth.role = 'admin' || @request.auth.role = 'editor')",
+        "view": "@request.auth.id != '' && (obra.autor = @request.auth.id || @request.auth.role = 'admin' || @request.auth.role = 'editor')",
+        "create": "@request.auth.id != '' && obra.autor = @request.auth.id",
+        "update": "@request.auth.id != '' && (obra.autor = @request.auth.id || @request.auth.role = 'admin')",
+        "delete": "@request.auth.id != '' && (obra.autor = @request.auth.id || @request.auth.role = 'admin')"
+      },
+      "fields": [
+        {
+          "name": "obra",
+          "type": "relation",
+          "required": true,
+          "system": false,
+          "collectionRef": "obras"
+        },
+        {
+          "name": "tipo",
+          "type": "select",
+          "required": true,
+          "system": false,
+          "selectValues": ["manuscrito", "anexo", "capa", "outro"]
+        },
+        {
+          "name": "arquivo",
+          "type": "file",
+          "required": true,
+          "system": false
+        },
+        {
+          "name": "created",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate"]
+        },
+        {
+          "name": "updated",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate", "onUpdate"]
+        }
+      ],
+      "indexes": ["CREATE INDEX idx_arquivos_obra ON arquivos (obra, tipo)"]
+    },
+    {
+      "name": "questionarios",
+      "type": "base",
+      "apiRules": {
+        "list": "@request.auth.id != '' && (obra.autor = @request.auth.id || @request.auth.role = 'admin' || @request.auth.role = 'editor')",
+        "view": "@request.auth.id != '' && (obra.autor = @request.auth.id || @request.auth.role = 'admin' || @request.auth.role = 'editor')",
+        "create": "@request.auth.id != '' && obra.autor = @request.auth.id",
+        "update": "@request.auth.id != '' && (obra.autor = @request.auth.id || @request.auth.role = 'editor' || @request.auth.role = 'admin')",
+        "delete": "@request.auth.id != '' && (obra.autor = @request.auth.id || @request.auth.role = 'admin')"
+      },
+      "fields": [
+        {
+          "name": "obra",
+          "type": "relation",
+          "required": true,
+          "system": false,
+          "collectionRef": "obras"
+        },
+        {
+          "name": "respostas",
+          "type": "json",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "versao",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "concluido",
+          "type": "bool",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "created",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate"]
+        },
+        {
+          "name": "updated",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate", "onUpdate"]
+        }
+      ],
+      "indexes": ["CREATE INDEX idx_questionarios_obra ON questionarios (obra)"]
+    },
+    {
+      "name": "servicos",
+      "type": "base",
+      "apiRules": {
+        "list": "",
+        "view": "",
+        "create": "@request.auth.role = 'admin'",
+        "update": "@request.auth.role = 'admin'",
+        "delete": "@request.auth.role = 'admin'"
+      },
+      "fields": [
+        {
+          "name": "camada",
+          "type": "number",
+          "required": true,
+          "system": false
+        },
+        {
+          "name": "nome",
+          "type": "text",
+          "required": true,
+          "system": false
+        },
+        {
+          "name": "descricao",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "unidade",
+          "type": "select",
+          "required": true,
+          "system": false,
+          "selectValues": ["obra", "lauda_1800", "pagina", "hora", "pacote"]
+        },
+        {
+          "name": "preco_centavos",
+          "type": "number",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "prazo_dias_uteis",
+          "type": "number",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "ativo",
+          "type": "bool",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "created",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate"]
+        },
+        {
+          "name": "updated",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate", "onUpdate"]
+        }
+      ],
+      "indexes": ["CREATE INDEX idx_servicos_camada_ativo ON servicos (camada, ativo)"]
+    },
+    {
+      "name": "raio_x",
+      "type": "base",
+      "apiRules": {
+        "list": "@request.auth.id != '' && (obra.autor = @request.auth.id || @request.auth.role = 'admin' || @request.auth.role = 'editor')",
+        "view": "@request.auth.id != '' && (obra.autor = @request.auth.id || @request.auth.role = 'admin' || @request.auth.role = 'editor')",
+        "create": null,
+        "update": null,
+        "delete": null
+      },
+      "fields": [
+        {
+          "name": "obra",
+          "type": "relation",
+          "required": true,
+          "system": false,
+          "collectionRef": "obras"
+        },
+        {
+          "name": "versao",
+          "type": "text",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "resultado",
+          "type": "json",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "origem",
+          "type": "select",
+          "required": false,
+          "system": false,
+          "selectValues": ["simulado", "ia"]
+        },
+        {
+          "name": "created",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate"]
+        },
+        {
+          "name": "updated",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate", "onUpdate"]
+        }
+      ],
+      "indexes": ["CREATE INDEX idx_raio_x_obra ON raio_x (obra, created DESC)"]
+    },
+    {
+      "name": "pedidos",
+      "type": "base",
+      "apiRules": {
+        "list": "@request.auth.id != '' && (obra.autor = @request.auth.id || @request.auth.role = 'admin' || @request.auth.role = 'editor')",
+        "view": "@request.auth.id != '' && (obra.autor = @request.auth.id || @request.auth.role = 'admin' || @request.auth.role = 'editor')",
+        "create": "@request.auth.id != '' && obra.autor = @request.auth.id && @request.auth.role != 'admin' && @request.auth.role != 'editor'",
+        "update": "@request.auth.id != '' && (@request.auth.role = 'admin' || @request.auth.role = 'editor')",
+        "delete": null
+      },
+      "fields": [
+        {
+          "name": "obra",
+          "type": "relation",
+          "required": true,
+          "system": false,
+          "collectionRef": "obras"
+        },
+        {
+          "name": "servico",
+          "type": "relation",
+          "required": true,
+          "system": false,
+          "collectionRef": "servicos"
+        },
+        {
+          "name": "estado",
+          "type": "select",
+          "required": false,
+          "system": false,
+          "selectValues": ["orcado", "aprovado", "em_andamento", "concluido", "cancelado"]
+        },
+        {
+          "name": "preco_centavos",
+          "type": "number",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "prazo_dias_uteis",
+          "type": "number",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "created",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate"]
+        },
+        {
+          "name": "updated",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate", "onUpdate"]
+        }
+      ],
+      "indexes": ["CREATE INDEX idx_pedidos_obra_created ON pedidos (obra, created DESC)"]
+    },
+    {
+      "name": "designacoes",
+      "type": "base",
+      "apiRules": {
+        "list": "@request.auth.id != '' && (editor = @request.auth.id || obra.autor = @request.auth.id || @request.auth.role = 'admin')",
+        "view": "@request.auth.id != '' && (editor = @request.auth.id || obra.autor = @request.auth.id || @request.auth.role = 'admin')",
+        "create": "@request.auth.role = 'admin'",
+        "update": "@request.auth.role = 'admin'",
+        "delete": "@request.auth.role = 'admin'"
+      },
+      "fields": [
+        {
+          "name": "obra",
+          "type": "relation",
+          "required": true,
+          "system": false,
+          "collectionRef": "obras"
+        },
+        {
+          "name": "editor",
+          "type": "relation",
+          "required": true,
+          "system": false,
+          "collectionRef": "users"
+        },
+        {
+          "name": "papel",
+          "type": "text",
+          "required": true,
+          "system": false
+        },
+        {
+          "name": "created",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate"]
+        },
+        {
+          "name": "updated",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate", "onUpdate"]
+        }
+      ],
+      "indexes": [
+        "CREATE UNIQUE INDEX idx_designacoes_obra_editor_papel ON designacoes (obra, editor, papel)"
       ]
     }
   ]
