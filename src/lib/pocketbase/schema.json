@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-10T21:52:57.676Z",
+  "generatedAt": "2026-11-10T22:09:32.681Z",
   "collections": [
     {
       "name": "users",
@@ -769,6 +769,138 @@
       ],
       "indexes": [
         "CREATE UNIQUE INDEX idx_designacoes_obra_editor_papel ON designacoes (obra, editor, papel)"
+      ]
+    },
+    {
+      "name": "tabela_precos",
+      "type": "base",
+      "apiRules": {
+        "list": "@request.auth.role = 'admin'",
+        "view": "@request.auth.role = 'admin'",
+        "create": "@request.auth.role = 'admin'",
+        "update": "@request.auth.role = 'admin'",
+        "delete": "@request.auth.role = 'admin'"
+      },
+      "fields": [
+        {
+          "name": "servico_codigo",
+          "type": "text",
+          "required": true,
+          "system": false
+        },
+        {
+          "name": "unidade",
+          "type": "select",
+          "required": true,
+          "system": false,
+          "selectValues": ["lauda", "pagina", "fixo", "exemplar"]
+        },
+        {
+          "name": "preco_min_centavos",
+          "type": "number",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "preco_max_centavos",
+          "type": "number",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "vigente_de",
+          "type": "date",
+          "required": true,
+          "system": false
+        },
+        {
+          "name": "vigente_ate",
+          "type": "date",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "ativo",
+          "type": "bool",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "created",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate"]
+        },
+        {
+          "name": "updated",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate", "onUpdate"]
+        }
+      ],
+      "indexes": [
+        "CREATE INDEX idx_tabela_precos_servico_vigencia ON tabela_precos (servico_codigo, vigente_de)"
+      ]
+    },
+    {
+      "name": "tabela_prazos",
+      "type": "base",
+      "apiRules": {
+        "list": "@request.auth.role = 'admin'",
+        "view": "@request.auth.role = 'admin'",
+        "create": "@request.auth.role = 'admin'",
+        "update": "@request.auth.role = 'admin'",
+        "delete": "@request.auth.role = 'admin'"
+      },
+      "fields": [
+        {
+          "name": "servico_codigo",
+          "type": "text",
+          "required": true,
+          "system": false
+        },
+        {
+          "name": "prazo_min_dias_uteis",
+          "type": "number",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "prazo_max_dias_uteis",
+          "type": "number",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "vigente_de",
+          "type": "date",
+          "required": true,
+          "system": false
+        },
+        {
+          "name": "vigente_ate",
+          "type": "date",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "ativo",
+          "type": "bool",
+          "required": false,
+          "system": false
+        },
+        {
+          "name": "created",
+          "type": "autodate",
+          "required": false,
+          "system": false,
+          "autodateTriggers": ["onCreate", "onUpdate"]
+        }
+      ],
+      "indexes": [
+        "CREATE INDEX idx_tabela_prazos_servico_vigencia ON tabela_prazos (servico_codigo, vigente_de)"
       ]
     }
   ]
