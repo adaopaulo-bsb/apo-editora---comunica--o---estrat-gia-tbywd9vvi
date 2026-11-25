@@ -40,7 +40,11 @@ export default function Layout() {
       </main>
       <footer className="bg-[hsl(150_31%_18%)] text-[hsl(39_43%_93%)]">
         <div className="mx-auto max-w-6xl px-6 py-10 font-sans text-sm">
-          <img src="/logo/apo-completo-claro.png" alt="APO Comunicação & Estratégia" className="h-16 w-auto" />
+          <img
+            src="/logo/apo-completo-claro.png"
+            alt="APO Comunicação & Estratégia"
+            className="h-16 w-auto"
+          />
           <p className="mt-3 font-display text-lg font-semibold">Editora</p>
           <p className="mt-2 max-w-xl font-serif text-base opacity-80">
             Uma iniciativa da APO Comunicação &amp; Estratégia. Cada obra é conduzida por um editor,
