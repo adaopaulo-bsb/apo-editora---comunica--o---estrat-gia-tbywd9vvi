@@ -10,22 +10,22 @@
 @layer base {
   :root {
     /* Change the colors to match the design system */
-    --background: 39 43% 93%;
+    --background: 39 36% 88%;
     --foreground: 40 12% 10%;
 
-    --card: 40 38% 88%;
+    --card: 39 40% 93%;
     --card-foreground: 40 12% 10%;
 
-    --popover: 39 43% 96%;
+    --popover: 39 40% 95%;
     --popover-foreground: 40 12% 10%;
 
-    --primary: 16 69% 42%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 150 31% 18%;
+    --primary-foreground: 39 43% 95%;
 
-    --secondary: 40 38% 81%;
+    --secondary: 39 30% 80%;
     --secondary-foreground: 40 12% 10%;
 
-    --muted: 40 38% 88%;
+    --muted: 39 30% 83%;
     --muted-foreground: 40 10% 33%;
 
     --accent: 41 67% 55%;
@@ -34,10 +34,11 @@
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 40 20% 78%;
-    --input: 40 20% 78%;
-    --ring: 16 69% 42%;
+    --border: 39 22% 74%;
+    --input: 39 22% 74%;
+    --ring: 150 31% 18%;
 
+    --terracota: 16 69% 42%;
     --radius: 0.25rem;
 
     --sidebar-background: 150 31% 18%;
@@ -110,6 +111,12 @@
 
   body {
     @apply bg-background text-foreground font-serif antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply text-primary;
   }
 
   /* NEVER REMOVE THIS */
