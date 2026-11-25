@@ -115,7 +115,7 @@ export default function Home() {
       <section id="equipe" className="mx-auto flex max-w-6xl flex-wrap items-center gap-12 px-6 py-16">
         <div className="min-w-0 flex-1 basis-72">
           <Rotulo>Equipe</Rotulo>
-          <h2 className="mt-3 font-display text-4xl font-extrabold leading-tight">Seu texto nas mãos de quem escreve e edita.</h2>
+          <h2 className="mt-3 font-display text-4xl font-extrabold leading-tight">Quem cuida do seu texto tem nome e rosto.</h2>
         </div>
         <div className="flex min-w-0 flex-[2] basis-[30rem] flex-wrap gap-8">
           {[
