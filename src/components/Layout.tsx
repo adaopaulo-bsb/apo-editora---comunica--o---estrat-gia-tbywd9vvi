@@ -21,7 +21,10 @@ export default function Layout() {
             </span>
             <span className="font-display text-2xl font-extrabold">APO Editora</span>
           </Link>
-          <nav aria-label="Principal" className="flex flex-wrap items-center gap-6 font-sans text-sm font-medium text-muted-foreground">
+          <nav
+            aria-label="Principal"
+            className="flex flex-wrap items-center gap-6 font-sans text-sm font-medium text-muted-foreground"
+          >
             {links.map((l) => (
               <a key={l.href} href={l.href} className="hover:text-foreground">
                 {l.rotulo}

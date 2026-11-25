@@ -13,18 +13,40 @@ const obras = [
   { capa: '/capas/fc1.jpg', titulo: 'Fígado e Coração', info: 'Crônicas · 1ª edição' },
   { capa: '/capas/cartas.jpg', titulo: 'Cartas de Adão', info: 'Poemas e contos' },
   { capa: '/capas/dv.jpg', titulo: 'O Direito à Vida', info: 'Jurídico · OAB Águas Claras/DF' },
-  { capa: '/capas/anuario.jpg', titulo: 'Anuário da Advocacia Pública', info: 'Jornalismo e Jurídico' },
+  {
+    capa: '/capas/anuario.jpg',
+    titulo: 'Anuário da Advocacia Pública',
+    info: 'Jornalismo e Jurídico',
+  },
 ]
 
 const leque = [
-  { capa: '/capas/anuario.jpg', alt: 'Capa do Anuário da Advocacia Pública', cls: 'left-0 top-16 h-72 -rotate-[9deg]' },
-  { capa: '/capas/fc1.jpg', alt: 'Capa de Fígado e Coração, 1ª edição', cls: 'left-28 top-4 h-80 -rotate-[3deg]' },
-  { capa: '/capas/dv.jpg', alt: 'Capa de O Direito à Vida', cls: 'left-56 top-10 h-[19rem] rotate-[4deg]' },
-  { capa: '/capas/fc2.jpg', alt: 'Capa de Fígado e Coração, 2ª edição', cls: 'left-80 top-2 h-80 rotate-[9deg]' },
+  {
+    capa: '/capas/anuario.jpg',
+    alt: 'Capa do Anuário da Advocacia Pública',
+    cls: 'left-0 top-16 h-72 -rotate-[9deg]',
+  },
+  {
+    capa: '/capas/fc1.jpg',
+    alt: 'Capa de Fígado e Coração, 1ª edição',
+    cls: 'left-28 top-4 h-80 -rotate-[3deg]',
+  },
+  {
+    capa: '/capas/dv.jpg',
+    alt: 'Capa de O Direito à Vida',
+    cls: 'left-56 top-10 h-[19rem] rotate-[4deg]',
+  },
+  {
+    capa: '/capas/fc2.jpg',
+    alt: 'Capa de Fígado e Coração, 2ª edição',
+    cls: 'left-80 top-2 h-80 rotate-[9deg]',
+  },
 ]
 
 const Rotulo = ({ children }: { children: string }) => (
-  <p className="font-sans text-xs font-semibold uppercase tracking-[0.14em] text-primary">{children}</p>
+  <p className="font-sans text-xs font-semibold uppercase tracking-[0.14em] text-primary">
+    {children}
+  </p>
 )
 
 export default function Home() {
@@ -35,17 +57,25 @@ export default function Home() {
           <Rotulo>Editora autônoma · Brasília</Rotulo>
           <h1 className="mt-4 font-display text-5xl font-extrabold leading-none tracking-tight md:text-7xl">
             Seu livro, do texto{' '}
-            <span className="bg-[linear-gradient(transparent_60%,hsl(var(--accent))_60%)]">à estante.</span>
+            <span className="bg-[linear-gradient(transparent_60%,hsl(var(--accent))_60%)]">
+              à estante.
+            </span>
           </h1>
           <p className="mt-6 max-w-lg font-serif text-xl leading-relaxed text-muted-foreground">
             Parecer, revisão, capa e publicação conduzidos por editores de verdade, com apoio de
             inteligência artificial nas etapas em que ela ajuda.
           </p>
           <div className="mt-8 flex flex-wrap gap-3 font-sans text-[15px] font-semibold">
-            <a href="#raio-x" className="rounded bg-primary px-6 py-4 text-primary-foreground hover:opacity-90">
+            <a
+              href="#raio-x"
+              className="rounded bg-primary px-6 py-4 text-primary-foreground hover:opacity-90"
+            >
               Fazer o Raio-X gratuito
             </a>
-            <a href="#obras" className="rounded border-[1.5px] border-foreground px-6 py-[14px] hover:bg-secondary">
+            <a
+              href="#obras"
+              className="rounded border-[1.5px] border-foreground px-6 py-[14px] hover:bg-secondary"
+            >
               Ver obras publicadas
             </a>
           </div>
@@ -78,10 +108,14 @@ export default function Home() {
         <ol className="min-w-0 flex-[1.4] basis-[28rem]">
           {etapas.map(([nome, texto], i) => (
             <li key={nome} className="flex gap-5 border-t border-foreground/20 py-5">
-              <span className="w-12 font-display text-3xl font-extrabold leading-none text-primary">{i + 1}</span>
+              <span className="w-12 font-display text-3xl font-extrabold leading-none text-primary">
+                {i + 1}
+              </span>
               <div>
                 <h3 className="font-display text-xl font-semibold">{nome}</h3>
-                <p className="mt-1 font-serif text-lg leading-snug text-muted-foreground">{texto}</p>
+                <p className="mt-1 font-serif text-lg leading-snug text-muted-foreground">
+                  {texto}
+                </p>
               </div>
             </li>
           ))}
@@ -104,7 +138,9 @@ export default function Home() {
                 </div>
                 <figcaption className="mt-3">
                   <span className="block font-display text-lg font-semibold">{o.titulo}</span>
-                  <span className="font-sans text-xs font-medium text-muted-foreground">{o.info}</span>
+                  <span className="font-sans text-xs font-medium text-muted-foreground">
+                    {o.info}
+                  </span>
                 </figcaption>
               </figure>
             ))}
@@ -112,10 +148,15 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="equipe" className="mx-auto flex max-w-6xl flex-wrap items-center gap-12 px-6 py-16">
+      <section
+        id="equipe"
+        className="mx-auto flex max-w-6xl flex-wrap items-center gap-12 px-6 py-16"
+      >
         <div className="min-w-0 flex-1 basis-72">
           <Rotulo>Equipe</Rotulo>
-          <h2 className="mt-3 font-display text-4xl font-extrabold leading-tight">Duas pessoas, olho em cada texto.</h2>
+          <h2 className="mt-3 font-display text-4xl font-extrabold leading-tight">
+            Duas pessoas, olho em cada texto.
+          </h2>
         </div>
         <div className="flex min-w-0 flex-[2] basis-[30rem] flex-wrap gap-8">
           {[
