@@ -3,8 +3,9 @@ import { Link, Outlet } from 'react-router-dom'
 
 const links = [
   { href: '/#como-funciona', rotulo: 'Como funciona' },
-  { href: '/#obras', rotulo: 'Obras' },
   { href: '/#equipe', rotulo: 'Equipe' },
+  { href: '/#obras', rotulo: 'Obras' },
+  { href: '/#raio-x', rotulo: 'Contato' },
 ]
 
 export default function Layout() {
