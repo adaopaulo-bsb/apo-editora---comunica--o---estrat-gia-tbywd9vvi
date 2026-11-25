@@ -38,7 +38,7 @@ export default function Layout() {
       <main className="flex-1">
         <Outlet />
       </main>
-      <footer className="bg-[hsl(150_31%_18%)] text-[hsl(39_43%_93%)]">
+      <footer className="bg-primary text-primary-foreground">
         <div className="mx-auto max-w-6xl px-6 py-10 font-sans text-sm">
           <img src="/logo/apo-completo-claro.png" alt="APO Comunicação & Estratégia" className="h-16 w-auto" />
           <p className="mt-3 font-display text-lg font-semibold">Editora</p>

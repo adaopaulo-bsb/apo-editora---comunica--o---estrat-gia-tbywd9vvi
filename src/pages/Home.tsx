@@ -3,8 +3,8 @@ import { useState } from 'react'
 
 const etapas = [
   ['Raio-X da obra', 'Diagnóstico automático prévio com nota de prontidão, pontos fortes e ajustes.', 'Gratuito'],
-  ['Parecer editorial', 'Leitura completa por um editor da APO, com plano de trabalho e orçamento firme.', 'Abatido em 15 dias'],
-  ['Texto e projeto gráfico', 'Preparação do texto, diagramação e capa, com prazo informado por etapa.', 'Por faixa de prazo'],
+  ['Parecer editorial', 'Leitura completa por um editor da APO, com plano de trabalho e orçamento firme. O valor do parecer é descontado se você contratar a etapa seguinte em até 15 dias.', 'Desconto se você seguir em 15 dias'],
+  ['Texto e projeto gráfico', 'Preparação do texto, diagramação e capa. Você vê a estimativa de preço e de prazo de cada etapa antes de contratar.', 'Preço e prazo estimados por etapa'],
   ['Publicação e lançamento', 'ISBN, livro impresso e e-book, e posicionamento da obra junto aos leitores.', 'Impresso: consulte valores'],
 ]
 
@@ -106,7 +106,7 @@ const leque = [
 ]
 
 const Rotulo = ({ children }: { children: string }) => (
-  <p className="font-sans text-xs font-semibold uppercase tracking-[0.14em] text-primary">{children}</p>
+  <p className="font-sans text-xs font-semibold uppercase tracking-[0.14em] text-terracota">{children}</p>
 )
 
 const Chip = ({ children }: { children: string }) => (
@@ -116,14 +116,14 @@ const Chip = ({ children }: { children: string }) => (
 )
 
 const Trajetoria = ({ dados }: { dados: typeof trajetoriaAdao }) => (
-  <div className="mb-10 border-t-2 border-primary bg-card p-7">
+  <div className="mb-10 border-t-2 border-terracota bg-card p-7">
     <Rotulo>{dados.rotulo}</Rotulo>
     <h3 className="mt-2 font-display text-3xl font-extrabold leading-tight">{dados.titulo}</h3>
     <p className="mt-3 max-w-3xl font-serif text-lg leading-relaxed text-muted-foreground">{dados.texto}</p>
     <div className="mt-6">
       {dados.itens.map(([quando, cargo, onde, texto]) => (
         <div key={cargo} className="grid gap-1 border-t border-foreground/15 py-4 md:grid-cols-[9rem_1fr] md:gap-5">
-          <p className="font-sans text-xs font-semibold uppercase tracking-wider text-primary">{quando}</p>
+          <p className="font-sans text-xs font-semibold uppercase tracking-wider text-terracota">{quando}</p>
           <div>
             <p className="font-display text-xl font-semibold leading-tight">{cargo}</p>
             {onde && <p className="mt-0.5 font-sans text-xs text-muted-foreground">{onde}</p>}
@@ -195,7 +195,7 @@ export default function Home() {
         <ol className="min-w-0 flex-[1.4] basis-[28rem]">
           {etapas.map(([nome, texto, tag], i) => (
             <li key={nome} className="flex gap-5 border-t border-foreground/20 py-5">
-              <span className="w-12 font-display text-3xl font-extrabold leading-none text-primary">
+              <span className="w-12 font-display text-3xl font-extrabold leading-none text-terracota">
                 {String(i + 1).padStart(2, '0')}
               </span>
               <div className="min-w-0 flex-1">
@@ -223,7 +223,7 @@ export default function Home() {
               <div className="flex items-center gap-4">
                 <img src="/equipe/adao.jpg" alt="Adão Paulo Oliveira" className="h-24 w-24 rounded-full object-cover" />
                 <div>
-                  <p className="font-sans text-xs font-semibold uppercase tracking-wider text-primary">Editor</p>
+                  <p className="font-sans text-xs font-semibold uppercase tracking-wider text-terracota">Editor</p>
                   <h3 className="font-display text-2xl font-semibold">Adão Paulo Oliveira</h3>
                 </div>
               </div>
@@ -247,7 +247,7 @@ export default function Home() {
               <div className="flex items-center gap-4">
                 <img src="/equipe/tati.jpg" alt="Tati Rocha" className="h-24 w-24 rounded-full object-cover" />
                 <div>
-                  <p className="font-sans text-xs font-semibold uppercase tracking-wider text-primary">Editora-assistente</p>
+                  <p className="font-sans text-xs font-semibold uppercase tracking-wider text-terracota">Editora-assistente</p>
                   <h3 className="font-display text-2xl font-semibold">Tati Rocha</h3>
                 </div>
               </div>
@@ -268,7 +268,7 @@ export default function Home() {
               </ul>
             </article>
           </div>
-          <p className="mt-6 border-l-2 border-primary pl-4 font-serif text-base text-muted-foreground">
+          <p className="mt-6 border-l-2 border-terracota pl-4 font-serif text-base text-muted-foreground">
             Cada obra é conduzida por um editor da APO, com a colaboração de Inteligência Artificial em etapas do trabalho.
           </p>
         </div>
@@ -304,7 +304,7 @@ export default function Home() {
             <article key={o.capa} className="flex gap-5 bg-card p-5">
               <img src={o.capa} alt={o.alt} className="h-56 w-auto flex-none self-start shadow-[0_8px_20px_rgba(28,26,23,0.25)]" />
               <div className="min-w-0">
-                <p className="font-sans text-xs font-semibold uppercase tracking-wider text-primary">{o.ano}</p>
+                <p className="font-sans text-xs font-semibold uppercase tracking-wider text-terracota">{o.ano}</p>
                 <h3 className="mt-1 font-display text-xl font-semibold leading-tight">{o.titulo}</h3>
                 <p className="mt-2 font-serif text-base leading-snug">{o.desc}</p>
                 <dl className="mt-3 space-y-0.5 font-sans text-xs text-muted-foreground">
@@ -321,11 +321,11 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="raio-x" className="bg-[hsl(150_31%_18%)] py-16 text-[hsl(39_43%_93%)]">
+      <section id="raio-x" className="bg-primary py-16 text-primary-foreground">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-8 px-6">
           <div className="min-w-0 flex-1 basis-[28rem]">
             <p className="font-sans text-xs font-semibold uppercase tracking-[0.14em] text-accent">Próximo passo</p>
-            <h2 className="mt-2 font-display text-4xl font-extrabold leading-tight">
+            <h2 className="mt-2 font-display text-4xl font-extrabold leading-tight text-inherit">
               Comece pelo Raio-X, ou fale com um editor
             </h2>
             <p className="mt-3 font-serif text-xl opacity-80">

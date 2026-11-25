@@ -32,6 +32,7 @@ export default {
         display: ['Fraunces', 'Georgia', 'serif'],
       },
       colors: {
+        terracota: 'hsl(var(--terracota))',
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
