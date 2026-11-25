@@ -9,6 +9,10 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 
+/* Padrão de lauda usado nas faixas de preço. Alterar aqui ajusta o texto e o exemplo. */
+const LAUDA = 1800
+const fmt = (n: number) => n.toLocaleString('pt-BR')
+
 type Linha = [servico: string, detalhe: string, preco: string, prazo: string]
 
 const grupos: { titulo: string; linhas: Linha[] }[] = [
@@ -21,7 +25,7 @@ const grupos: { titulo: string; linhas: Linha[] }[] = [
     ],
   },
   {
-    titulo: 'Preparação do texto (por lauda de 1.800 caracteres)',
+    titulo: `Preparação do texto (por lauda de ${fmt(LAUDA)} caracteres, com espaços)`,
     linhas: [
       ['Nível 1: revisão', 'Correção ortográfica e gramatical.', 'R$ 9 a R$ 16 por lauda', ''],
       ['Nível 2: revisão com copydesk', 'Revisão, padronização e clareza do texto.', 'R$ 12 a R$ 25 por lauda', '8 a 15 dias úteis (obra de cerca de 170 laudas)'],
@@ -77,6 +81,16 @@ export default function Orcamento({ children }: { children: ReactNode }) {
               ))}
             </section>
           ))}
+          <div className="bg-card p-4 font-serif text-base leading-snug">
+            <p className="font-semibold">O que é uma lauda</p>
+            <p className="mt-1 text-muted-foreground">
+              Lauda é a unidade usada para medir o tamanho de um texto e calcular o trabalho de revisão e edição.
+              Ela não equivale a uma página do livro. Aqui, cada lauda tem {fmt(LAUDA)} caracteres, contando os
+              espaços. Cada profissional pode adotar outro padrão: em editoras literárias é comum cerca de 2.100
+              caracteres, no jornalismo 1.400 e na tradução 1.250. Por isso informamos o nosso: um manuscrito de{' '}
+              {fmt(170 * LAUDA)} caracteres tem 170 laudas.
+            </p>
+          </div>
           <div className="bg-card p-4 font-serif text-base leading-snug">
             <p className="font-semibold">Exemplo: obra de 170 laudas e 160 páginas, com revisão e copydesk (nível 2)</p>
             <p className="mt-1 text-muted-foreground">
