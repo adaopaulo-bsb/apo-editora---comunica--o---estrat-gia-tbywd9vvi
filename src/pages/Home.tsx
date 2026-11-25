@@ -258,8 +258,8 @@ export default function Home() {
             </span>
           </h1>
           <p className="mt-6 max-w-xl font-serif text-xl leading-relaxed text-muted-foreground">
-            A APO Comunicação e Estratégia trabalha com um time de profissionais com vasta
-            experiência em editoração, com a colaboração de Inteligência Artificial.
+            Trabalhamos com um time de profissionais com vasta experiência em editoração, com a
+            colaboração pontual de Inteligência Artificial de última geração.
           </p>
           <p className="mt-3 max-w-xl font-serif text-lg leading-relaxed text-muted-foreground">
             Responda a um questionário, envie seu manuscrito e receba, sem custo, o Raio-X da obra:
