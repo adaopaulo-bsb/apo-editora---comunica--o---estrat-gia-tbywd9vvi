@@ -254,7 +254,7 @@ export default function Home() {
           <h1 className="mt-4 font-display text-5xl font-extrabold leading-[1.02] tracking-tight md:text-6xl">
             Seu livro merece uma edição à altura da{' '}
             <span className="bg-[linear-gradient(transparent_60%,hsl(var(--accent))_60%)]">
-              sua história.
+              sua história
             </span>
           </h1>
           <p className="mt-6 max-w-xl font-serif text-xl leading-relaxed text-muted-foreground">
