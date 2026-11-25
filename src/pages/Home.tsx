@@ -304,7 +304,7 @@ export default function Home() {
           <Rotulo>Do manuscrito ao livro</Rotulo>
           <h2 className="mt-3 font-display text-4xl font-extrabold leading-tight">Como funciona</h2>
           <p className="mt-4 font-serif text-lg leading-relaxed text-muted-foreground">
-            Você começa de graça e só contrata o que a sua obra realmente pede.
+            Você começa de graça e só contrata o que a sua obra realmente precisa.
           </p>
         </div>
         <ol className="min-w-0 flex-[1.4] basis-[28rem]">
