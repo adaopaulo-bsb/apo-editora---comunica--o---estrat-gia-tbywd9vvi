@@ -17,7 +17,10 @@ export default function Layout() {
             <img src="/logo/apo-marca.png" alt="APO" className="h-9 w-auto" />
             <span className="pb-0.5 font-display text-xl font-semibold tracking-wide">Editora</span>
           </Link>
-          <nav aria-label="Principal" className="flex flex-wrap items-center gap-6 font-sans text-sm font-medium text-muted-foreground">
+          <nav
+            aria-label="Principal"
+            className="flex flex-wrap items-center gap-6 font-sans text-sm font-medium text-muted-foreground"
+          >
             {links.map((l) => (
               <a key={l.href} href={l.href} className="hover:text-foreground">
                 {l.rotulo}
