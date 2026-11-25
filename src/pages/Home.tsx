@@ -9,13 +9,13 @@ const etapas = [
   ],
   [
     'Parecer editorial',
-    'Leitura completa por um editor da APO, com plano de trabalho e orçamento firme.',
-    'Abatido em 15 dias',
+    'Um editor lê a obra inteira e entrega um relatório com o que ela precisa e o preço fechado dos próximos serviços. É a primeira etapa paga.',
+    'Valor descontado se você seguir em até 15 dias',
   ],
   [
     'Texto e projeto gráfico',
-    'Preparação do texto, diagramação e capa, com prazo informado por etapa.',
-    'Por faixa de prazo',
+    'Preparação do texto, diagramação e capa. Antes de contratar, você vê o preço e o prazo estimados de cada etapa, em dias úteis.',
+    'Preço e prazo estimados',
   ],
   [
     'Publicação e lançamento',
