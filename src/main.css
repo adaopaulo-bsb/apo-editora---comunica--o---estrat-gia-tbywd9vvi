@@ -10,22 +10,22 @@
 @layer base {
   :root {
     /* Change the colors to match the design system */
-    --background: 39 36% 88%;
-    --foreground: 40 12% 10%;
+    --background: 96 14% 91%;
+    --foreground: 150 12% 11%;
 
-    --card: 39 40% 93%;
+    --card: 96 18% 95%;
     --card-foreground: 40 12% 10%;
 
-    --popover: 39 40% 95%;
+    --popover: 96 18% 96%;
     --popover-foreground: 40 12% 10%;
 
     --primary: 150 31% 18%;
     --primary-foreground: 39 43% 95%;
 
-    --secondary: 39 30% 80%;
+    --secondary: 98 13% 83%;
     --secondary-foreground: 40 12% 10%;
 
-    --muted: 39 30% 83%;
+    --muted: 98 13% 85%;
     --muted-foreground: 40 10% 33%;
 
     --accent: 41 67% 55%;
@@ -34,8 +34,8 @@
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 39 22% 74%;
-    --input: 39 22% 74%;
+    --border: 98 10% 74%;
+    --input: 98 10% 74%;
     --ring: 150 31% 18%;
 
     --terracota: 16 69% 42%;
