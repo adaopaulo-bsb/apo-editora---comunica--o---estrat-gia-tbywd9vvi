@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-26T19:55:42.716Z",
+  "generatedAt": "2026-11-26T20:03:28.462Z",
   "collections": [
     {
       "name": "users",
@@ -522,11 +522,25 @@
           "required": false,
           "system": false,
           "autodateTriggers": ["onCreate", "onUpdate"]
+        },
+        {
+          "name": "arquivo",
+          "type": "relation",
+          "required": false,
+          "system": false,
+          "collectionRef": "arquivos"
+        },
+        {
+          "name": "etapa_indice",
+          "type": "number",
+          "required": false,
+          "system": false
         }
       ],
       "indexes": [
         "CREATE INDEX idx_jobs_obra_estado ON jobs (obra, estado)",
-        "CREATE INDEX idx_jobs_estado_tentativas ON jobs (estado, tentativas)"
+        "CREATE INDEX idx_jobs_estado_tentativas ON jobs (estado, tentativas)",
+        "CREATE UNIQUE INDEX `idx_jobs_raiox_obra_aberto` ON `jobs` (obra) WHERE tipo = 'raio_x'"
       ]
     },
     {
