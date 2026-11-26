@@ -1,5 +1,6 @@
 /* Layout: cabeçalho e rodapé do site público da APO Editora */
 import { Link, Outlet } from 'react-router-dom'
+import Orcamento from '@/components/Orcamento'
 
 const links = [
   { href: '/#como-funciona', rotulo: 'Como funciona' },
@@ -26,6 +27,11 @@ export default function Layout() {
                 {l.rotulo}
               </a>
             ))}
+            <Orcamento>
+              <button type="button" className="hover:text-foreground">
+                Orçamento
+              </button>
+            </Orcamento>
             <a
               href="/#raio-x"
               className="rounded bg-primary px-5 py-2.5 text-primary-foreground hover:opacity-90"

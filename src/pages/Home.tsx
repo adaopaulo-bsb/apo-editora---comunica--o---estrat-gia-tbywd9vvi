@@ -1,5 +1,6 @@
 /* Home pública da APO Editora: identidade "Papel e Cerrado" */
-import { useState } from 'react'
+import { useId, useState, type ReactNode } from 'react'
+import Orcamento from '@/components/Orcamento'
 
 const etapas = [
   [
@@ -9,18 +10,18 @@ const etapas = [
   ],
   [
     'Parecer editorial',
-    'Leitura completa por um editor da APO, com plano de trabalho e orçamento firme.',
-    'Abatido em 15 dias',
+    'Um editor lê a obra inteira e entrega um relatório com o que ela precisa e o preço fechado dos próximos serviços.',
+    '',
   ],
   [
     'Texto e projeto gráfico',
-    'Preparação do texto, diagramação e capa, com prazo informado por etapa.',
-    'Por faixa de prazo',
+    'Preparação do texto, diagramação e capa, cada etapa com preço e prazo informados antes de você contratar.',
+    '',
   ],
   [
     'Publicação e lançamento',
     'ISBN, livro impresso e e-book, e posicionamento da obra junto aos leitores.',
-    'Impresso: consulte valores',
+    '',
   ],
 ]
 
@@ -215,32 +216,54 @@ const Chip = ({ children }: { children: string }) => (
   </span>
 )
 
-const Trajetoria = ({ dados }: { dados: typeof trajetoriaAdao }) => (
-  <div className="mb-10 border-t-2 border-primary bg-card p-7">
-    <Rotulo>{dados.rotulo}</Rotulo>
-    <h3 className="mt-2 font-display text-3xl font-extrabold leading-tight">{dados.titulo}</h3>
-    <p className="mt-3 max-w-3xl font-serif text-lg leading-relaxed text-muted-foreground">
-      {dados.texto}
-    </p>
-    <div className="mt-6">
-      {dados.itens.map(([quando, cargo, onde, texto]) => (
-        <div
-          key={cargo}
-          className="grid gap-1 border-t border-foreground/15 py-4 md:grid-cols-[9rem_1fr] md:gap-5"
-        >
-          <p className="font-sans text-xs font-semibold uppercase tracking-wider text-primary">
-            {quando}
-          </p>
-          <div>
-            <p className="font-display text-xl font-semibold leading-tight">{cargo}</p>
-            {onde && <p className="mt-0.5 font-sans text-xs text-muted-foreground">{onde}</p>}
-            <p className="mt-1.5 font-serif text-base leading-snug">{texto}</p>
+const CartaoEquipe = ({ dados, children }: { dados: typeof trajetoriaAdao; children: ReactNode }) => {
+  const [aberto, setAberto] = useState(false)
+  const id = useId()
+  return (
+    <article
+      className="bg-background p-7"
+      onMouseEnter={() => setAberto(true)}
+      onMouseLeave={() => setAberto(false)}
+    >
+      {children}
+      <button
+        type="button"
+        aria-expanded={aberto}
+        aria-controls={id}
+        onClick={() => setAberto((v) => !v)}
+        className="mt-5 font-sans text-sm font-semibold text-terracota underline-offset-4 hover:underline"
+      >
+        {aberto ? 'Ocultar trajetória' : 'Ver trajetória'}
+      </button>
+      <div
+        id={id}
+        className={`grid transition-[grid-template-rows] duration-300 ease-out ${
+          aberto ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
+        }`}
+      >
+        <div className="overflow-hidden">
+          <div className="mt-4 border-t-2 border-terracota pt-4">
+            <p className="font-sans text-xs font-semibold uppercase tracking-[0.14em] text-terracota">
+              {dados.rotulo}
+            </p>
+            <h4 className="mt-1 font-display text-xl font-extrabold leading-tight text-primary">{dados.titulo}</h4>
+            <p className="mt-2 font-serif text-base leading-snug text-muted-foreground">{dados.texto}</p>
+            <div className="mt-3">
+              {dados.itens.map(([quando, cargo, onde, texto]) => (
+                <div key={cargo} className="border-t border-foreground/15 py-3">
+                  <p className="font-sans text-xs font-semibold uppercase tracking-wider text-terracota">{quando}</p>
+                  <p className="font-display text-lg font-semibold leading-tight">{cargo}</p>
+                  {onde && <p className="font-sans text-xs text-muted-foreground">{onde}</p>}
+                  <p className="mt-1 font-serif text-base leading-snug">{texto}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-      ))}
-    </div>
-  </div>
-)
+      </div>
+    </article>
+  )
+}
 
 export default function Home() {
   const [filtro, setFiltro] = useState<Filtro>('todas')
@@ -258,8 +281,8 @@ export default function Home() {
             </span>
           </h1>
           <p className="mt-6 max-w-xl font-serif text-xl leading-relaxed text-muted-foreground">
-            Trabalhamos com um time de profissionais com vasta experiência em editoração, com a
-            colaboração pontual de Inteligência Artificial de última geração.
+            A APO Comunicação e Estratégia trabalha com um time de profissionais com vasta
+            experiência em editoração, com a colaboração de Inteligência Artificial.
           </p>
           <p className="mt-3 max-w-xl font-serif text-lg leading-relaxed text-muted-foreground">
             Responda a um questionário, envie seu manuscrito e receba, sem custo, o Raio-X da obra:
@@ -299,32 +322,40 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="como-funciona" className="mx-auto flex max-w-6xl flex-wrap gap-14 px-6 py-14">
-        <div className="min-w-0 flex-1 basis-80">
-          <Rotulo>Do manuscrito ao livro</Rotulo>
-          <h2 className="mt-3 font-display text-4xl font-extrabold leading-tight">Como funciona</h2>
-          <p className="mt-4 font-serif text-lg leading-relaxed text-muted-foreground">
-            Você começa de graça e só contrata o que a sua obra realmente precisa.
-          </p>
-        </div>
-        <ol className="min-w-0 flex-[1.4] basis-[28rem]">
+      <section id="como-funciona" className="mx-auto max-w-6xl px-6 py-14">
+        <Rotulo>Do manuscrito ao livro</Rotulo>
+        <h2 className="mt-3 font-display text-4xl font-extrabold leading-tight">Como funciona</h2>
+        <p className="mt-3 max-w-2xl font-serif text-lg leading-relaxed text-muted-foreground">
+          Você começa de graça e só contrata o que a sua obra realmente precisa.
+        </p>
+        <ol className="mt-8 grid gap-6 md:grid-cols-2">
           {etapas.map(([nome, texto, tag], i) => (
-            <li key={nome} className="flex gap-5 border-t border-foreground/20 py-5">
-              <span className="w-12 font-display text-3xl font-extrabold leading-none text-primary">
+            <li key={nome} className="flex gap-5 border border-border bg-card p-6">
+              <span className="w-12 flex-none font-display text-3xl font-extrabold leading-none text-terracota">
                 {String(i + 1).padStart(2, '0')}
               </span>
               <div className="min-w-0 flex-1">
                 <h3 className="font-display text-xl font-semibold">{nome}</h3>
-                <p className="mt-1 font-serif text-lg leading-snug text-muted-foreground">
-                  {texto}
-                </p>
-                <span className="mt-2 inline-block rounded-full bg-secondary px-3 py-1 font-sans text-xs font-semibold">
-                  {tag}
-                </span>
+                <p className="mt-1 font-serif text-lg leading-snug text-muted-foreground">{texto}</p>
+                {tag && (
+                  <span className="mt-3 inline-block rounded-full bg-secondary px-3 py-1 font-sans text-xs font-semibold">
+                    {tag}
+                  </span>
+                )}
               </div>
             </li>
           ))}
         </ol>
+        <div className="mt-8">
+          <Orcamento>
+            <button
+              type="button"
+              className="rounded bg-primary px-6 py-4 font-sans text-[15px] font-semibold text-primary-foreground hover:opacity-90"
+            >
+              Orçamento: veja preços e prazos
+            </button>
+          </Orcamento>
+        </div>
       </section>
 
       <section id="equipe" className="bg-secondary py-16">
@@ -337,8 +368,8 @@ export default function Home() {
             Experiência em editoração, texto jurídico, jornalismo e literatura, com uma rede de
             revisores, diagramadores e ilustradores parceiros.
           </p>
-          <div className="mt-9 grid gap-8 md:grid-cols-2">
-            <article className="bg-background p-7">
+          <div className="mt-9 grid items-start gap-8 md:grid-cols-2">
+            <CartaoEquipe dados={trajetoriaAdao}>
               <div className="flex items-center gap-4">
                 <img
                   src="/equipe/adao.jpg"
@@ -379,8 +410,8 @@ export default function Home() {
                   Jurídico, 2014)
                 </li>
               </ul>
-            </article>
-            <article className="bg-background p-7">
+            </CartaoEquipe>
+            <CartaoEquipe dados={trajetoriaTati}>
               <div className="flex items-center gap-4">
                 <img
                   src="/equipe/tati.jpg"
@@ -417,7 +448,7 @@ export default function Home() {
                   superação
                 </li>
               </ul>
-            </article>
+            </CartaoEquipe>
           </div>
           <p className="mt-6 border-l-2 border-primary pl-4 font-serif text-base text-muted-foreground">
             Cada obra é conduzida por um editor da APO, com a colaboração de Inteligência Artificial
@@ -455,8 +486,6 @@ export default function Home() {
             </button>
           ))}
         </div>
-        {filtro === 'jornalismo' && <Trajetoria dados={trajetoriaAdao} />}
-        {filtro === 'contos' && <Trajetoria dados={trajetoriaTati} />}
         <div className="grid gap-8 md:grid-cols-2">
           {visiveis.map((o) => (
             <article key={o.capa} className="flex gap-5 bg-card p-5">
