@@ -1,6 +1,7 @@
 /* Home pública da APO Editora: identidade "Papel e Cerrado" */
 import { useId, useState, type ReactNode } from 'react'
 import Orcamento from '@/components/Orcamento'
+import FalarComEditor from '@/components/FalarComEditor'
 
 const etapas = [
   [
@@ -404,7 +405,7 @@ export default function Home() {
                   2026), com assessoria editorial da APO
                 </li>
                 <li>
-                  Editor-assistente do <i>Anuário da Advocacia Pública do Brasil</i> (Consultor
+                  Chefe da Assessoria de Comunicação, com participação no <i>Anuário da Advocacia Pública do Brasil</i> (Consultor
                   Jurídico, 2014)
                 </li>
               </ul>
@@ -514,32 +515,29 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="raio-x" className="bg-[hsl(150_31%_18%)] py-16 text-[hsl(39_43%_93%)]">
-        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-8 px-6">
-          <div className="min-w-0 flex-1 basis-[28rem]">
-            <p className="font-sans text-xs font-semibold uppercase tracking-[0.14em] text-accent">
-              Próximo passo
-            </p>
-            <h2 className="mt-2 font-display text-4xl font-extrabold leading-tight">
-              Comece pelo Raio-X, ou fale com um editor
-            </h2>
-            <p className="mt-3 font-serif text-xl opacity-80">
-              Sem compromisso. Se a sua obra pedir mais, indicamos o melhor caminho.
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-3 font-sans text-base font-semibold">
+      <section id="raio-x" className="bg-primary py-20 text-primary-foreground">
+        <div className="mx-auto flex max-w-4xl flex-col items-center gap-8 px-6 text-center">
+          <p className="font-sans text-xs font-semibold uppercase tracking-[0.14em] text-accent">
+            Próximo passo
+          </p>
+          <h2 className="font-display text-4xl font-extrabold leading-tight text-primary-foreground md:text-5xl">
+            Comece pelo Raio-X, ou fale com um editor
+          </h2>
+          <div className="flex flex-wrap items-center justify-center gap-4 font-sans text-lg font-semibold">
             <a
               href="#raio-x"
-              className="rounded bg-accent px-7 py-[18px] text-accent-foreground hover:opacity-90"
+              className="rounded bg-accent px-10 py-5 text-accent-foreground hover:opacity-90"
             >
               Fazer o Raio-X gratuito
             </a>
-            <a
-              href="#contato"
-              className="rounded border-[1.5px] border-[hsl(39_43%_93%)] px-7 py-4 hover:bg-white/10"
-            >
-              Falar com um editor
-            </a>
+            <FalarComEditor>
+              <button
+                type="button"
+                className="rounded border-2 border-primary-foreground px-10 py-[18px] hover:bg-white/10"
+              >
+                Falar com um editor
+              </button>
+            </FalarComEditor>
           </div>
         </div>
       </section>
