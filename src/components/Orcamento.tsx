@@ -90,8 +90,7 @@ export default function Orcamento({ children }: { children: ReactNode }) {
             <p className="mt-1 text-muted-foreground">
               Lauda é a unidade usada para medir o tamanho de um texto e calcular o trabalho de revisão e edição.
               Ela não equivale a uma página do livro. Aqui, cada lauda tem {fmt(LAUDA)} caracteres, contando os
-              espaços. Cada profissional pode adotar outro padrão: em editoras literárias é comum cerca de 2.100
-              caracteres, no jornalismo 1.400 e na tradução 1.250. Por isso informamos o nosso: um manuscrito de{' '}
+              espaços. Cada profissional pode adotar outro padrão. Por exemplo, um manuscrito de{' '}
               {fmt(170 * LAUDA)} caracteres tem 170 laudas.
             </p>
           </div>
