@@ -23,15 +23,7 @@
     "tsconfig.json",
     "tsconfig.node.json",
     "vite.config.ts",
-    "vite-plugin-react-uid.js",
-    "index.html",
-    "tailwind.config.ts",
-    "src/main.css",
-    "src/pages/Home.tsx",
-    "src/components/Layout.tsx",
-    "src/components/Orcamento.tsx",
-    "src/components/FalarComEditor.tsx",
-    "public/**/*"
+    "vite-plugin-react-uid.js"
   ],
   "excludeFromContext": [
     "src/components/ui/**/*",
@@ -40,7 +32,7 @@
     "README.md"
   ],
   "deployment": {
-    "lastDevBuildRef": "4377dd5",
+    "lastDevBuildRef": "cdc0ba8",
     "lastProdBuildRef": "f4cdbca",
     "publishedAt": "2026-11-26T18:53:01.367Z",
     "lastPublishedRef": "f4cdbca"
