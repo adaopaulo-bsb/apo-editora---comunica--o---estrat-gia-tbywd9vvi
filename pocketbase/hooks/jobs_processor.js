@@ -7,11 +7,49 @@
 // IMPORTANTE (Skip Cloud): callbacks do JSVM executam em outra VM — toda
 // função auxiliar é declarada DENTRO do callback do cron.
 //
-// Fase 4 (Raio-X simulado): a etapa "analisar" do job tipo "raio_x" gera
-// resultado SIMULADO (config ia_simulada; IA real só em fase posterior) e
-// grava em "raio_x" {resultado, origem 'simulado', status}. Ao concluir,
-// a obra passa ao estado "raio_x". Falha → job em erro, obra intacta.
-// LOGS: nunca conteúdo de manuscrito nem do resultado — só ids/estados.
+// Fase 5 (Raio-X com IA real): a etapa "analisar" do job tipo "raio_x" tenta
+// uma CADEIA de origens, sem marcar o job como erro quando uma delas falha:
+//   1ª) API da Anthropic DIRETA (modelo claude-sonnet-5-5) — APROVADO PELO
+//       USUÁRIO: recurso não-nativo do Skip, escolhido pela qualidade da
+//       análise editorial, com o gateway nativo mantido como reserva.
+//   2ª) Gateway nativo do Skip ($ai.chat, segredos SKIP_AI_*).
+//   3ª) Análise simulada (a antiga, origem "simulado").
+// Com ia_simulada=true (config) ou teto diário de IA estourado, vai direto
+// à 3ª. A chave ANTHROPIC_API_KEY só via $os.getenv (nunca em arquivo, log
+// ou front). Ao concluir, a obra passa ao estado "raio_x". Falha não avança
+// etapa_indice, só incrementa tentativas.
+//
+// Cada rodada do cron pega no máximo 1 job "pendente" (ou preso em
+// "executando", de uma queda anterior) e executa UMA etapa curta, gravando
+// o novo estado antes e depois. Se o servidor cair no meio, o job fica
+// "executando" e é retomado pela contagem de tentativas.
+//
+// pocketbase/hooks/jobs_processor.js — módulo jobs.
+// Agendador nativo (cronAdd) que processa jobs em ETAPAS CURTAS, retomando
+// de onde parou (máquina de estados por estado/tentativas). Este padrão
+// será usado nas Fases 4 e 5 (Raio-X, parecer, preparação etc.).
+//
+// IMPORTANTE (Skip Cloud): callbacks do JSVM executam em outra VM — toda
+// função auxiliar é declarada DENTRO do callback do cron.
+//
+// Fase 5 (Raio-X com IA real): a etapa "analisar" do job tipo "raio_x" tenta
+// uma CADEIA de origens, sem marcar o job como erro quando uma delas falha:
+//   1ª) API da Anthropic DIRETA (modelo claude-sonnet-5-5) — APROVADO PELO
+//       USUÁRIO: recurso não-nativo do Skip, escolhido pela qualidade da
+//       análise editorial, com o gateway nativo mantido como reserva.
+//   2ª) Gateway nativo do Skip ($ai.chat, segredos SKIP_AI_*).
+//   3ª) Análise simulada (a antiga, origem "simulado").
+// Com ia_simulada=true (config) ou teto diário de IA estourado, vai direto
+// à 3ª. A chave ANTHROPIC_API_KEY só via $os.getenv (nunca em arquivo, log
+// ou front). Ao concluir, a obra passa ao estado "raio_x". Falha não avança
+// etapa_indice, só incrementa tentativas.
+//
+// Cada rodada do cron pega no máximo 1 job "pendente" (ou preso em
+// "executando", de uma queda anterior) e executa UMA etapa curta, gravando
+// o novo estado antes e depois. Se o servidor cair no meio, o job fica
+// "executando" e é retomado pela contagem de tentativas.
+//
+=======
 //
 // Cada rodada do cron pega no máximo 1 job "pendente" (ou preso em
 // "executando", de uma queda anterior) e executa UMA etapa curta, gravando
