@@ -15,16 +15,11 @@ const fmt = (n: number) => n.toLocaleString('pt-BR')
 
 type Linha = [servico: string, detalhe: string, preco: string, prazo: string]
 
-const grupos: { titulo: string; linhas: Linha[] }[] = [
+const grupos: { titulo: string; nota?: string; linhas: Linha[] }[] = [
   {
     titulo: 'Parecer editorial',
     linhas: [
-      [
-        'Até 60 mil palavras',
-        'Leitura completa por um editor, com relatório e preço fechado dos próximos serviços.',
-        'R$ 290 a R$ 450',
-        '3 a 5 dias úteis',
-      ],
+      ['Até 60 mil palavras', 'Leitura completa por um editor, com relatório e preço fechado dos próximos serviços.', 'R$ 290 a R$ 450', '3 a 5 dias úteis'],
       ['De 60 a 120 mil palavras', '', 'R$ 450 a R$ 690', ''],
       ['Acima de 120 mil palavras', '', 'R$ 690 a R$ 890', ''],
     ],
@@ -33,18 +28,8 @@ const grupos: { titulo: string; linhas: Linha[] }[] = [
     titulo: `Preparação do texto (por lauda de ${fmt(LAUDA)} caracteres, com espaços)`,
     linhas: [
       ['Nível 1: revisão', 'Correção ortográfica e gramatical.', 'R$ 9 a R$ 16 por lauda', ''],
-      [
-        'Nível 2: revisão com copydesk',
-        'Revisão, padronização e clareza do texto.',
-        'R$ 12 a R$ 25 por lauda',
-        '8 a 15 dias úteis (obra de cerca de 170 laudas)',
-      ],
-      [
-        'Nível 3: edição aprofundada',
-        'Intervenção maior no texto, com o editor.',
-        'R$ 25 a R$ 40 por lauda',
-        '',
-      ],
+      ['Nível 2: revisão com copydesk', 'Revisão, padronização e clareza do texto.', 'R$ 12 a R$ 25 por lauda', '8 a 15 dias úteis (obra de cerca de 170 laudas)'],
+      ['Nível 3: edição aprofundada', 'Intervenção maior no texto, com o editor.', 'R$ 25 a R$ 40 por lauda', ''],
     ],
   },
   {
@@ -56,14 +41,10 @@ const grupos: { titulo: string; linhas: Linha[] }[] = [
   },
   {
     titulo: 'Publicação',
+    nota: 'Publicação impressa: consultar valores',
     linhas: [
       ['ISBN e ficha catalográfica', 'Orçado à parte.', 'R$ 60 a R$ 150', '3 a 7 dias úteis'],
-      [
-        'Livro impresso',
-        'Cotado com gráficas conforme formato, páginas e tiragem.',
-        'Consulte valores',
-        'Conforme a gráfica',
-      ],
+      ['Livro impresso', 'Cotado com gráficas conforme formato, páginas e tiragem.', 'Consulte valores', 'Conforme a gráfica'],
     ],
   },
 ]
@@ -76,16 +57,17 @@ export default function Orcamento({ children }: { children: ReactNode }) {
         <DialogHeader>
           <DialogTitle className="font-display text-3xl font-extrabold">Orçamento</DialogTitle>
           <DialogDescription className="font-serif text-base text-muted-foreground">
-            Faixas de referência por serviço. O valor firme é definido depois do Parecer, que é
-            descontado se você contratar a preparação do texto ou o projeto gráfico em até 15 dias.
+            Faixas de referência por serviço. O valor firme é definido depois do Parecer, que é descontado se
+            você contratar a preparação do texto ou o projeto gráfico em até 15 dias.
           </DialogDescription>
         </DialogHeader>
         <div className="space-y-6">
           {grupos.map((g) => (
             <section key={g.titulo}>
-              <h3 className="border-b-2 border-terracota pb-1 font-display text-lg font-semibold">
-                {g.titulo}
-              </h3>
+              <div className="flex flex-wrap items-baseline justify-between gap-x-4 border-b-2 border-terracota pb-1">
+                <h3 className="font-display text-lg font-semibold">{g.titulo}</h3>
+                {g.nota && <p className="font-sans text-sm font-semibold text-terracota">{g.nota}</p>}
+              </div>
               {g.linhas.map(([servico, detalhe, preco, prazo]) => (
                 <div
                   key={servico}
@@ -93,9 +75,7 @@ export default function Orcamento({ children }: { children: ReactNode }) {
                 >
                   <div>
                     <p className="font-serif text-lg font-semibold leading-tight">{servico}</p>
-                    {detalhe && (
-                      <p className="font-serif text-sm text-muted-foreground">{detalhe}</p>
-                    )}
+                    {detalhe && <p className="font-serif text-sm text-muted-foreground">{detalhe}</p>}
                   </div>
                   <div className="font-sans text-sm sm:text-right">
                     <p className="font-semibold text-terracota">{preco}</p>
@@ -108,25 +88,21 @@ export default function Orcamento({ children }: { children: ReactNode }) {
           <div className="bg-card p-4 font-serif text-base leading-snug">
             <p className="font-semibold">O que é uma lauda</p>
             <p className="mt-1 text-muted-foreground">
-              Lauda é a unidade usada para medir o tamanho de um texto e calcular o trabalho de
-              revisão e edição. Ela não equivale a uma página do livro. Aqui, cada lauda tem{' '}
-              {fmt(LAUDA)} caracteres, contando os espaços. Cada profissional pode adotar outro
-              padrão: em editoras literárias é comum cerca de 2.100 caracteres, no jornalismo 1.400
-              e na tradução 1.250. Por isso informamos o nosso: um manuscrito de {fmt(170 * LAUDA)}{' '}
-              caracteres tem 170 laudas.
+              Lauda é a unidade usada para medir o tamanho de um texto e calcular o trabalho de revisão e edição.
+              Ela não equivale a uma página do livro. Aqui, cada lauda tem {fmt(LAUDA)} caracteres, contando os
+              espaços. Cada profissional pode adotar outro padrão. Por exemplo, um manuscrito de{' '}
+              {fmt(170 * LAUDA)} caracteres tem 170 laudas.
             </p>
           </div>
           <div className="bg-card p-4 font-serif text-base leading-snug">
-            <p className="font-semibold">
-              Exemplo: obra de 170 laudas e 160 páginas, com revisão e copydesk (nível 2)
-            </p>
+            <p className="font-semibold">Exemplo: obra de 170 laudas e 160 páginas, com revisão e copydesk (nível 2)</p>
             <p className="mt-1 text-muted-foreground">
               Total estimado, sem impressão: R$ 3.890 a R$ 8.420, em 21 a 40 dias úteis.
             </p>
           </div>
           <p className="font-serif text-sm text-muted-foreground">
-            Os prazos contam a partir da aprovação do orçamento e do recebimento do material, com
-            uma rodada de revisão do autor por etapa. Os valores são referências e podem mudar.
+            Os prazos contam a partir da aprovação do orçamento e do recebimento do material, com uma rodada de
+            revisão do autor por etapa. Os valores são referências e podem mudar.
           </p>
         </div>
       </DialogContent>
