@@ -25,14 +25,13 @@ const etapas = [
   ],
 ]
 
-type Filtro = 'todas' | 'contos' | 'poesia' | 'juridico' | 'jornalismo'
+type Filtro = 'todas' | 'contos' | 'poesia' | 'juridico'
 
 const filtros: [Filtro, string][] = [
   ['todas', 'Todas'],
   ['contos', 'Contos e crônicas'],
   ['poesia', 'Poesia'],
   ['juridico', 'Jurídico'],
-  ['jornalismo', 'Jornalismo'],
 ]
 
 const obras: {
@@ -105,12 +104,12 @@ const obras: {
     alt: 'Capa do Anuário da Advocacia Pública do Brasil',
     titulo: 'Anuário da Advocacia Pública do Brasil',
     ano: '2014',
-    tags: ['jornalismo', 'juridico'],
+    tags: ['juridico'],
     desc: 'Edição especial sobre a atuação da advocacia pública no país: do pré-sal à Copa, os defensores do patrimônio e das políticas sociais.',
     creditos: [
-      ['Gênero', 'Jornalismo e jurídico'],
+      ['Gênero', 'Jurídico'],
       ['Publicação', 'Consultor Jurídico'],
-      ['Papel', 'Editor-assistente: Adão Paulo Oliveira'],
+      ['Papel', 'Chefe da Assessoria de Comunicação: Adão Paulo Oliveira'],
     ],
   },
 ]
@@ -220,20 +219,18 @@ const CartaoEquipe = ({ dados, children }: { dados: typeof trajetoriaAdao; child
   const [aberto, setAberto] = useState(false)
   const id = useId()
   return (
-    <article
-      className="bg-background p-7"
-      onMouseEnter={() => setAberto(true)}
-      onMouseLeave={() => setAberto(false)}
-    >
+    <article className="bg-background p-7">
       {children}
+      <div onMouseLeave={() => setAberto(false)}>
       <button
         type="button"
         aria-expanded={aberto}
         aria-controls={id}
+        onMouseEnter={() => setAberto(true)}
         onClick={() => setAberto((v) => !v)}
         className="mt-5 font-sans text-sm font-semibold text-terracota underline-offset-4 hover:underline"
       >
-        {aberto ? 'Ocultar trajetória' : 'Ver trajetória'}
+        {aberto ? 'Ocultar trajetória' : 'Ver trajetória completa'}
       </button>
       <div
         id={id}
@@ -260,6 +257,7 @@ const CartaoEquipe = ({ dados, children }: { dados: typeof trajetoriaAdao; child
             </div>
           </div>
         </div>
+      </div>
       </div>
     </article>
   )
