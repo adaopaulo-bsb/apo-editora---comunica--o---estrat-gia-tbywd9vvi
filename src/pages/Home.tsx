@@ -216,7 +216,13 @@ const Chip = ({ children }: { children: string }) => (
   </span>
 )
 
-const CartaoEquipe = ({ dados, children }: { dados: typeof trajetoriaAdao; children: ReactNode }) => {
+const CartaoEquipe = ({
+  dados,
+  children,
+}: {
+  dados: typeof trajetoriaAdao
+  children: ReactNode
+}) => {
   const [aberto, setAberto] = useState(false)
   const id = useId()
   return (
@@ -246,12 +252,18 @@ const CartaoEquipe = ({ dados, children }: { dados: typeof trajetoriaAdao; child
             <p className="font-sans text-xs font-semibold uppercase tracking-[0.14em] text-terracota">
               {dados.rotulo}
             </p>
-            <h4 className="mt-1 font-display text-xl font-extrabold leading-tight text-primary">{dados.titulo}</h4>
-            <p className="mt-2 font-serif text-base leading-snug text-muted-foreground">{dados.texto}</p>
+            <h4 className="mt-1 font-display text-xl font-extrabold leading-tight text-primary">
+              {dados.titulo}
+            </h4>
+            <p className="mt-2 font-serif text-base leading-snug text-muted-foreground">
+              {dados.texto}
+            </p>
             <div className="mt-3">
               {dados.itens.map(([quando, cargo, onde, texto]) => (
                 <div key={cargo} className="border-t border-foreground/15 py-3">
-                  <p className="font-sans text-xs font-semibold uppercase tracking-wider text-terracota">{quando}</p>
+                  <p className="font-sans text-xs font-semibold uppercase tracking-wider text-terracota">
+                    {quando}
+                  </p>
                   <p className="font-display text-lg font-semibold leading-tight">{cargo}</p>
                   {onde && <p className="font-sans text-xs text-muted-foreground">{onde}</p>}
                   <p className="mt-1 font-serif text-base leading-snug">{texto}</p>
@@ -336,7 +348,9 @@ export default function Home() {
               </span>
               <div className="min-w-0 flex-1">
                 <h3 className="font-display text-xl font-semibold">{nome}</h3>
-                <p className="mt-1 font-serif text-lg leading-snug text-muted-foreground">{texto}</p>
+                <p className="mt-1 font-serif text-lg leading-snug text-muted-foreground">
+                  {texto}
+                </p>
                 {tag && (
                   <span className="mt-3 inline-block rounded-full bg-secondary px-3 py-1 font-sans text-xs font-semibold">
                     {tag}
