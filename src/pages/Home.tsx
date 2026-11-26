@@ -301,7 +301,7 @@ export default function Home() {
           </p>
           <div className="mt-7 flex flex-wrap gap-3 font-sans text-[15px] font-semibold">
             <a
-              href="#raio-x"
+              href="/raio-x"
               className="rounded bg-primary px-6 py-4 text-primary-foreground hover:opacity-90"
             >
               Fazer o Raio-X gratuito
@@ -539,7 +539,7 @@ export default function Home() {
           </h2>
           <div className="flex flex-wrap items-center justify-center gap-4 font-sans text-lg font-semibold">
             <a
-              href="#raio-x"
+              href="/raio-x"
               className="rounded bg-accent px-10 py-5 text-accent-foreground hover:opacity-90"
             >
               Fazer o Raio-X gratuito

@@ -5,6 +5,7 @@ import { Toaster as Sonner } from '@/components/ui/sonner'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import Home from './pages/Home'
 import Index from './pages/Index'
+import RaioX from './pages/RaioX'
 import NotFound from './pages/NotFound'
 import Layout from './components/Layout'
 
@@ -20,6 +21,7 @@ const App = () => (
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
           <Route path="/capacidades" element={<Index />} />
+          <Route path="/raio-x" element={<RaioX />} />
           {/* ADD ALL CUSTOM ROUTES MUST BE ADDED HERE */}
         </Route>
         <Route path="*" element={<NotFound />} />
