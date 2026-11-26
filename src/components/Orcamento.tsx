@@ -15,7 +15,7 @@ const fmt = (n: number) => n.toLocaleString('pt-BR')
 
 type Linha = [servico: string, detalhe: string, preco: string, prazo: string]
 
-const grupos: { titulo: string; linhas: Linha[] }[] = [
+const grupos: { titulo: string; nota?: string; linhas: Linha[] }[] = [
   {
     titulo: 'Parecer editorial',
     linhas: [
@@ -41,6 +41,7 @@ const grupos: { titulo: string; linhas: Linha[] }[] = [
   },
   {
     titulo: 'Publicação',
+    nota: 'Publicação impressa: consultar valores',
     linhas: [
       ['ISBN e ficha catalográfica', 'Orçado à parte.', 'R$ 60 a R$ 150', '3 a 7 dias úteis'],
       ['Livro impresso', 'Cotado com gráficas conforme formato, páginas e tiragem.', 'Consulte valores', 'Conforme a gráfica'],
@@ -63,7 +64,10 @@ export default function Orcamento({ children }: { children: ReactNode }) {
         <div className="space-y-6">
           {grupos.map((g) => (
             <section key={g.titulo}>
-              <h3 className="border-b-2 border-terracota pb-1 font-display text-lg font-semibold">{g.titulo}</h3>
+              <div className="flex flex-wrap items-baseline justify-between gap-x-4 border-b-2 border-terracota pb-1">
+                <h3 className="font-display text-lg font-semibold">{g.titulo}</h3>
+                {g.nota && <p className="font-sans text-sm font-semibold text-terracota">{g.nota}</p>}
+              </div>
               {g.linhas.map(([servico, detalhe, preco, prazo]) => (
                 <div
                   key={servico}
