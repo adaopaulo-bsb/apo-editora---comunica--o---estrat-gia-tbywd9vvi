@@ -22,7 +22,9 @@ export default function FalarComEditor({ children }: { children: ReactNode }) {
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="max-w-md bg-background">
         <DialogHeader>
-          <DialogTitle className="font-display text-2xl font-extrabold">Falar com um editor</DialogTitle>
+          <DialogTitle className="font-display text-2xl font-extrabold">
+            Falar com um editor
+          </DialogTitle>
           <DialogDescription className="font-serif text-base text-muted-foreground">
             Escolha com quem você quer conversar. A conversa abre no WhatsApp.
           </DialogDescription>

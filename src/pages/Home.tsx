@@ -216,49 +216,61 @@ const Chip = ({ children }: { children: string }) => (
   </span>
 )
 
-const CartaoEquipe = ({ dados, children }: { dados: typeof trajetoriaAdao; children: ReactNode }) => {
+const CartaoEquipe = ({
+  dados,
+  children,
+}: {
+  dados: typeof trajetoriaAdao
+  children: ReactNode
+}) => {
   const [aberto, setAberto] = useState(false)
   const id = useId()
   return (
     <article className="bg-background p-7">
       {children}
       <div onMouseLeave={() => setAberto(false)}>
-      <button
-        type="button"
-        aria-expanded={aberto}
-        aria-controls={id}
-        onMouseEnter={() => setAberto(true)}
-        onClick={() => setAberto((v) => !v)}
-        className="mt-5 font-sans text-sm font-semibold text-terracota underline-offset-4 hover:underline"
-      >
-        {aberto ? 'Ocultar trajetória' : 'Ver trajetória completa'}
-      </button>
-      <div
-        id={id}
-        className={`grid transition-[grid-template-rows] duration-300 ease-out ${
-          aberto ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
-        }`}
-      >
-        <div className="overflow-hidden">
-          <div className="mt-4 border-t-2 border-terracota pt-4">
-            <p className="font-sans text-xs font-semibold uppercase tracking-[0.14em] text-terracota">
-              {dados.rotulo}
-            </p>
-            <h4 className="mt-1 font-display text-xl font-extrabold leading-tight text-primary">{dados.titulo}</h4>
-            <p className="mt-2 font-serif text-base leading-snug text-muted-foreground">{dados.texto}</p>
-            <div className="mt-3">
-              {dados.itens.map(([quando, cargo, onde, texto]) => (
-                <div key={cargo} className="border-t border-foreground/15 py-3">
-                  <p className="font-sans text-xs font-semibold uppercase tracking-wider text-terracota">{quando}</p>
-                  <p className="font-display text-lg font-semibold leading-tight">{cargo}</p>
-                  {onde && <p className="font-sans text-xs text-muted-foreground">{onde}</p>}
-                  <p className="mt-1 font-serif text-base leading-snug">{texto}</p>
-                </div>
-              ))}
+        <button
+          type="button"
+          aria-expanded={aberto}
+          aria-controls={id}
+          onMouseEnter={() => setAberto(true)}
+          onClick={() => setAberto((v) => !v)}
+          className="mt-5 font-sans text-sm font-semibold text-terracota underline-offset-4 hover:underline"
+        >
+          {aberto ? 'Ocultar trajetória' : 'Ver trajetória completa'}
+        </button>
+        <div
+          id={id}
+          className={`grid transition-[grid-template-rows] duration-300 ease-out ${
+            aberto ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'
+          }`}
+        >
+          <div className="overflow-hidden">
+            <div className="mt-4 border-t-2 border-terracota pt-4">
+              <p className="font-sans text-xs font-semibold uppercase tracking-[0.14em] text-terracota">
+                {dados.rotulo}
+              </p>
+              <h4 className="mt-1 font-display text-xl font-extrabold leading-tight text-primary">
+                {dados.titulo}
+              </h4>
+              <p className="mt-2 font-serif text-base leading-snug text-muted-foreground">
+                {dados.texto}
+              </p>
+              <div className="mt-3">
+                {dados.itens.map(([quando, cargo, onde, texto]) => (
+                  <div key={cargo} className="border-t border-foreground/15 py-3">
+                    <p className="font-sans text-xs font-semibold uppercase tracking-wider text-terracota">
+                      {quando}
+                    </p>
+                    <p className="font-display text-lg font-semibold leading-tight">{cargo}</p>
+                    {onde && <p className="font-sans text-xs text-muted-foreground">{onde}</p>}
+                    <p className="mt-1 font-serif text-base leading-snug">{texto}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
-      </div>
       </div>
     </article>
   )
@@ -335,7 +347,9 @@ export default function Home() {
               </span>
               <div className="min-w-0 flex-1">
                 <h3 className="font-display text-xl font-semibold">{nome}</h3>
-                <p className="mt-1 font-serif text-lg leading-snug text-muted-foreground">{texto}</p>
+                <p className="mt-1 font-serif text-lg leading-snug text-muted-foreground">
+                  {texto}
+                </p>
                 {tag && (
                   <span className="mt-3 inline-block rounded-full bg-secondary px-3 py-1 font-sans text-xs font-semibold">
                     {tag}
@@ -405,8 +419,8 @@ export default function Home() {
                   2026), com assessoria editorial da APO
                 </li>
                 <li>
-                  Chefe da Assessoria de Comunicação, com participação no <i>Anuário da Advocacia Pública do Brasil</i> (Consultor
-                  Jurídico, 2014)
+                  Chefe da Assessoria de Comunicação, com participação no{' '}
+                  <i>Anuário da Advocacia Pública do Brasil</i> (Consultor Jurídico, 2014)
                 </li>
               </ul>
             </CartaoEquipe>
